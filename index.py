@@ -22,10 +22,13 @@ def get_info():
     command = "yt-dlp --get-id --get-title -F \"" + url + "\""
     print(command)
     process = Popen(command, stdout=PIPE, stderr=STDOUT, shell=True, universal_newlines=True, encoding="utf-8")
+    line_list = []
     output = ""
     error = False
+    video_format = ""
+    audio_format = ""
+    video_title = ""
     video_id = ""
-    audio_id = ""
     flag = False
     while True:
         line = process.stdout.readline()
@@ -33,26 +36,30 @@ def get_info():
             break
         else:
             line = line.strip()
+            line_list.append(line)
             match = re.match(r"(\d+)\s+(\S+).+", line)
             if match:
                 format = match.group(2)
                 ID = match.group(1)
                 if format == "mp4":
-                    video_id = ID
+                    video_format = ID
                 elif format == "m4a":
-                    audio_id = ID
+                    audio_format = ID
                 flag = True
             if flag and not match:
                 err = re.search(r"ERROR:", line)
-                warn = re.search(r"WARNING:", line)
-                if warn is None:
-                    output += line + "<br>"
+                #warn = re.search(r"WARNING:", line)
+                #if warn is None:
+                #    output += line + "<br>"
                 if err is not None:
                     error = True
-    if error or video_id == "" or audio_id == "":
+    if error or video_format == "" or audio_format == "":
         output = "error.<br>" + output
     else:
-        output += video_id + "<br>" + audio_id + "<br>"
+        video_title = line_list[-2]
+        video_id = line_list[-1]
+        output += video_title + "<br>" + video_id + "<br>"
+        output += video_format + "<br>" + audio_format + "<br>"
     return output
 
 def download_thread(title, url, video_format, audio_format):

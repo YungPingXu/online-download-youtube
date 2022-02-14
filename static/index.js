@@ -4,7 +4,7 @@ function download_youtube() {
     var download_link = document.getElementById("download-link");
     download_youtube_button.disabled = true;
     download_youtube_button.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>Loading';
-    var url = document.getElementById("url").value.replace(/list=.+/g, "");
+    var url = document.getElementById("url").value.replace(/list=.+/g, "").trim();
     var get_info = new XMLHttpRequest();
     var title = "error.";
     var minute, second;
