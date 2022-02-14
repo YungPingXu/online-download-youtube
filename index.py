@@ -20,6 +20,7 @@ def index():
 def get_info():
     url = request.args.get("url")
     command = "yt-dlp --get-id --get-title -F \"" + url + "\""
+    print(command)
     process = Popen(command, stdout=PIPE, stderr=STDOUT, shell=True, universal_newlines=True, encoding="utf-8")
     output = ""
     error = False
@@ -55,7 +56,7 @@ def get_info():
     return output
 
 def download_thread(title, url, video_format, audio_format):
-    command = "yt-dlp -o \"static/" + title + ".mp4\" --force-overwrites -f " + video_format + "+" + audio_format + " --merge-output-format mp4 \"" + url + "\""
+    command = "yt-dlp -o \"static/" + title + ".mp4\" --force-overwrites -f " + video_format + "+" + audio_format + " \"" + url + "\""
     print(command)
     process = Popen(command, stdout=PIPE, stderr=STDOUT, shell=True, universal_newlines=True, encoding="utf-8")
     output = ""

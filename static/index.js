@@ -8,7 +8,7 @@ function download_youtube() {
     var get_info = new XMLHttpRequest();
     var title = "error.";
     var minute, second;
-    get_info.open("get", "/get_info?url=" + url + "/");
+    get_info.open("get", "/get_info?url=" + url);
     get_info.onload = function() {
         title = get_info.responseText.split("<br>")[0].replace(/\\/g, "").replace(/\//g, "").replace(/\?/g, "").replace(/\"/g, "").replace(/\|/g, "").replace(/\*/g, "").replace(/\</g, "").replace(/\>/g, "").replace(/\:/g, "").replace(/\#/g, "").replace(/\&/g, "").replace(/\+/g, "");
         if (get_info.responseText.split("<br>")[0] == "error.") {
