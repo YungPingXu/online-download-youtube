@@ -5,35 +5,35 @@ function download_youtube() {
     download_youtube_button.disabled = true;
     download_youtube_button.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>Loading';
     var url = document.getElementById("url").value.replace(/list=.+/g, "");
-    var get_title = new XMLHttpRequest();
+    var get_info = new XMLHttpRequest();
     var title = "error.";
     var minute, second;
-    get_title.open("get", "/get_title?url=" + url + "/");
-    get_title.onload = function() {
-        title = get_title.responseText.split("<br>")[0].replace(/\\/g, "").replace(/\//g, "").replace(/\?/g, "").replace(/\"/g, "").replace(/\|/g, "").replace(/\*/g, "").replace(/\</g, "").replace(/\>/g, "").replace(/\:/g, "").replace(/\#/g, "").replace(/\&/g, "").replace(/\+/g, "");;
-        if (get_title.responseText.split("<br>")[0] == "error.") {
+    get_info.open("get", "/get_info?url=" + url + "/");
+    get_info.onload = function() {
+        title = get_info.responseText.split("<br>")[0].replace(/\\/g, "").replace(/\//g, "").replace(/\?/g, "").replace(/\"/g, "").replace(/\|/g, "").replace(/\*/g, "").replace(/\</g, "").replace(/\>/g, "").replace(/\:/g, "").replace(/\#/g, "").replace(/\&/g, "").replace(/\+/g, "");
+        if (get_info.responseText.split("<br>")[0] == "error.") {
 			alert("你輸入的影片網址不正確!");
-			console.log(get_title.responseText.replace("error.<br>", ""));
-            /*var output = get_title.responseText.replace("error.<br>", "");
+			console.log(get_info.responseText.replace("error.<br>", ""));
+            /*var output = get_info.responseText.replace("error.<br>", "");
             error_message.innerHTML = output;*/
             download_youtube_button.disabled = false;
             download_youtube_button.innerHTML = "開始下載";
         } else {
             error_message.innerHTML = "";
             var start_download = new XMLHttpRequest();
-            document.getElementById("video-information-left").innerHTML = '<img src="https://i.ytimg.com/vi/' + get_title.responseText.split("<br>")[1] + '/mqdefault.jpg" height="144" width="256">'
+            document.getElementById("video-information-left").innerHTML = '<img src="https://i.ytimg.com/vi/' + get_info.responseText.split("<br>")[1] + '/mqdefault.jpg" height="144" width="256">'
             document.getElementById("video-title").innerHTML = title;
             document.getElementById("video-percent").innerHTML = "正在轉換 0.0 %";
             document.getElementById("video-progress").style.width = "0%";
             download_link.style.display = "none";
             document.getElementById("video-information").style.display = "block";
-            start_download.open("get", "/download?title=" + title + "&url=" + url + "/");
+            start_download.open("get", "/download?title=" + title + "&url=" + url + "&video_format=" + get_info.responseText.split("<br>")[2] + "&audio_format=" + get_info.responseText.split("<br>")[3]);
             start_download.send();
             window.location.hash = "";
             window.location.hash = "#video-information";
         }
     };
-    get_title.send();
+    get_info.send();
     setTimeout(function() {
         var get_progress = setInterval(function() {
             if (title != "error.") {
