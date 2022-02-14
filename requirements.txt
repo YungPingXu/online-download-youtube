@@ -1,4 +1,4 @@
 gunicorn
 flask
 moviepy
-youtube-dl
+yt-dlp
