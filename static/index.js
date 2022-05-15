@@ -95,7 +95,7 @@ function search_youtube() {
     var search_text = document.getElementById("search-text").value;
     var output = "";
     var search = new XMLHttpRequest();
-    search.open("get", "https://www.googleapis.com/youtube/v3/search?key=AIzaSyCmmkRL-vE3Q6CLkv00nn-l2JQqppcd8GA&part=snippet&type=video&maxResults=30&q=" + search_text);
+    search.open("get", "https://www.googleapis.com/youtube/v3/search?key=AIzaSyAlRiSya7nBG6wAj4L3cwkCjYkc18KX7PI&part=snippet&type=video&maxResults=30&q=" + search_text);
     search.onload = function() {
         var response = JSON.parse(this.responseText);
         for (var i = 0; i < response.items.length; i++) {
